@@ -3,8 +3,8 @@ import { MenuItem, Order } from "../types";
 
 export type OrderActions = 
     | { type: "add-item", payload: { item : MenuItem} }
-    | { type: "delete-item", payload: { item : MenuItem} }
-    | { type: "decrease-quantity", payload: { id : MenuItem["id"]} }
+    | { type: "delete-item", payload: { id : MenuItem["id"]} }
+    | { type: "decrease-quantity", payload: { item : MenuItem} }
   
 export type OrderState = {
     order: Order[];

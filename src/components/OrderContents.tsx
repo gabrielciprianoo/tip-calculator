@@ -1,19 +1,14 @@
 import { formatCurrency } from "../helpers";
-import { MenuItem, Order } from "../types";
+import { Order } from "../types";
 import { Fragment } from "react/jsx-runtime";
+import { ActionDispatch } from "react";
+import type { OrderActions } from "../reducers/OrderReducer";
 type OrderContentProps = {
   order: Order[];
-  deleteItem: (item: MenuItem["id"]) => void;
-  decreaseQuantity: (item: MenuItem) => void;
-  addItem: (item: MenuItem) => void;
+  dispatch: ActionDispatch<[actions: OrderActions]>;
 };
 
-export default function OrderContents({
-  order,
-  deleteItem,
-  decreaseQuantity,
-  addItem,
-}: OrderContentProps) {
+export default function OrderContents({ order, dispatch }: OrderContentProps) {
   return (
     <>
       <div className="text-md space-y-2">
@@ -32,7 +27,7 @@ export default function OrderContents({
                   <button
                     className="bg-blue-600 tex-xl text-white px-2 cursor-pointer rounded-full flex items-center justify-center"
                     onClick={() => {
-                      addItem(item);
+                      dispatch({ type: "add-item", payload: { item } });
                     }}
                   >
                     +
@@ -40,7 +35,7 @@ export default function OrderContents({
                   <button
                     className="bg-blue-600 text-xl text-white px-2 cursor-pointer rounded-full flex items-center justify-center"
                     onClick={() => {
-                      decreaseQuantity(item);
+                      dispatch({type: "decrease-quantity", payload: { item: item }});
                     }}
                   >
                     -
@@ -48,7 +43,7 @@ export default function OrderContents({
                   <button
                     className="bg-red-600 text-white px-2 cursor-pointer rounded-full"
                     onClick={() => {
-                      deleteItem(item.id);
+                      dispatch({type: "delete-item", payload: {id: item.id }});
                     }}
                   >
                     X

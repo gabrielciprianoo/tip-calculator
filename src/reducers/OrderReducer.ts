@@ -1,3 +1,4 @@
+import { addItem, addTip, decreaseQuantity, deleteItem } from "../actions/orderActions";
 import { MenuItem, Order } from "../types";
 
 
@@ -5,6 +6,7 @@ export type OrderActions =
     | { type: "add-item", payload: { item : MenuItem} }
     | { type: "delete-item", payload: { id : MenuItem["id"]} }
     | { type: "decrease-quantity", payload: { item : MenuItem} }
+    | { type: "add-tip", payload: { value : number} }
   
 export type OrderState = {
     order: Order[];
@@ -13,7 +15,7 @@ export type OrderState = {
 
 export const initialState: OrderState = { 
     order:[],
-    tip:0
+    tip: 0
 }
 
 export const orderReducer = (
@@ -23,14 +25,17 @@ export const orderReducer = (
 
     switch(actions.type){
         case "add-item":
-            console.log('add / +')
-            return state;
+             return addItem(state, actions.payload.item);
+
         case "delete-item":
-            console.log('delete')
-            return state;
+            return deleteItem(state, actions.payload.id);
+            
         case "decrease-quantity":
-            console.log('decrease')
-            return state;
+           
+            return decreaseQuantity(state, actions.payload.item);
+
+        case "add-tip":
+           return addTip(state, actions.payload.value);
         default:
             return state;
     }
